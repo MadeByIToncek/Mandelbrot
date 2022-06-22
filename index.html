@@ -5,7 +5,8 @@
 <meta charset="utf-8">
 
 <head>
-    <title>Leaflet TileLayer.GL Mandelbrot demo</title>
+    <title>Mandelbrot set GLSL</title>
+    <author>IToncek</author>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet-src.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,7 +24,7 @@
 		left: 0px;
 	"></div>
     <script type="text/javascript">
-        var fragmentShader = `
+        var shard = `
 int fractal(void) {
 	float cx = vCRSCoords.x;
 	float cy = vCRSCoords.y;
@@ -32,7 +33,7 @@ int fractal(void) {
 	float tempX = 0.0;
 	int i = 0;
 	int runaway = 0;
-	for (int i=1; i < 200; i++) {
+	for (int i=1; i < 5000; i++) {
 		tempX = x * x - y * y + float(cx);
 		y = 2.0 * x * y + float(cy);
 		x = tempX;
@@ -58,15 +59,14 @@ void main(void) {
 	}
 }
 `;
-        var tileSize = 256;
         var map = L.map('map', {
             crs: L.CRS.Simple,
             minZoom: 7,
             maxZoom: 22
 
-        }).setView([0, -0.5], 5);
+        }).setView([0, 0], 7);
         var fractal = L.tileLayer.gl({
-            fragmentShader: fragmentShader,
+            fragmentShader: shard,
             // tileUrls: []
         }).addTo(map);
     </script>
