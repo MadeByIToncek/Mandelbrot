@@ -25,7 +25,7 @@
 	"></div>
     <script type="text/javascript">
         var shard = `
-int fractal(void) {
+int fractal(max) {
 	float cx = vCRSCoords.x;
 	float cy = vCRSCoords.y;
 	float x = 0.0;
@@ -33,7 +33,7 @@ int fractal(void) {
 	float tempX = 0.0;
 	int i = 0;
 	int runaway = 0;
-	for (int i=1; i < 5000; i++) {
+	for (int i=1; i < max; i++) {
 		tempX = x * x - y * y + float(cx);
 		y = 2.0 * x * y + float(cy);
 		x = tempX;
@@ -49,11 +49,10 @@ void main(void) {
 	int steps = 0;
 	float blue;
 	float yellow;
-	steps = fractal();
+	steps = fractal(1000);
 	if (steps != 0) {
-		blue = float(steps) / 100.0;
-		yellow = blue / 4.0;
-		gl_FragColor = vec4(yellow, yellow, blue, 1.0);
+		color = log(steps)/6.907755278982137
+		gl_FragColor = vec4(color, color, color, 1.0);
 	} else {
 		gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
 	}
